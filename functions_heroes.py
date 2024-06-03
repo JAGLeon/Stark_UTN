@@ -1,9 +1,11 @@
-def mostrar_lista(lista,campos):
+def mostrar_lista_campos(lista,campos):
+    print()
     for elem in lista:
        mostrar_elemento_por_campos(elem, campos) 
        print()
 
 def mostrar_elemento_por_campos(elemento, campos):
+    print()
     for campo in campos:
         valor = elemento.get(campo, "No existe")
         print(f"{valor}", end = " ")
@@ -12,10 +14,10 @@ def mostrar_dictionary(dict):
     for x , y in dict.items():
         print(f"{x} => {y}")
 
-def mostrar_dictionary_lista(dict,campos):
+def mostrar_dictionary_lista_campos(dict,campos):
     for clave, listas in dict.items():
         print(f"\nclave {clave} :")
-        mostrar_lista(listas,campos)
+        mostrar_lista_campos(listas,campos)
 
 def filtrar_lista(funct,lista):
     lista_filtrada = []
@@ -30,17 +32,12 @@ def filtrar_atributo(atributo,lista):
         lista_filtrada.append(elem[atributo])
     return lista_filtrada
 
-def buscar_mayor_menor(funct,atributo,lista):
-    tam = len(lista)
-    valor_mayor_menor = lista[0][atributo]
-    item = lista[0]
-
-    for i in range(1,tam):
-        nuevo_mayor_menor = lista[i][atributo]
-        if funct(valor_mayor_menor, nuevo_mayor_menor):
-            valor_mayor_menor = nuevo_mayor_menor
-            item = lista[i]
-
+def comprar_items(fun, lista):     
+    bandera = True     
+    for i in lista:         
+        if bandera or fun(i, item):             
+            bandera = False
+            item = i
     return item
 
 def sumar_lista(lista):
@@ -52,29 +49,83 @@ def sumar_lista(lista):
 def promedio_lista(lista):
     return sumar_lista(lista) / len(lista)
 
-def contador_campo_repetido(campo,lista):
-    contador = {}
+def contador_repetido(clave,lista):
+    diccionario = {}
     for elem in lista:
-        cam_rep = elem.get(campo, "No existe")
-        if cam_rep == "":
-            cam_rep = "No Tiene"
+        valor_rep = elem.get(clave, "No existe")
+        if valor_rep == "":
+            valor_rep = "No Tiene"
             
-        if cam_rep in contador:
-            contador[cam_rep] += 1
+        if valor_rep in diccionario:
+            diccionario[valor_rep] += 1
         else:
-            contador[cam_rep] = 1
-    return contador
+            diccionario[valor_rep] = 1
+    return diccionario
     
-def agrupar_elementos(campo,lista):
-    agrupador = {}
+def agrupar_elementos(clave,lista):
+    diccionario = {}
     for elem in lista:
-        cam_rep = elem.get(campo, "No existe")
+        cam_rep = elem.get(clave, "No existe")
         if cam_rep == "":
             cam_rep = "No Tiene"
             
-        if cam_rep in agrupador:
-            agrupador[cam_rep].append(elem)
+        if cam_rep in diccionario:
+            diccionario[cam_rep].append(elem)
         else:
-            agrupador[cam_rep] = [elem]
-    return agrupador
+            diccionario[cam_rep] = [elem]
+    return diccionario
 
+######################Funciones Especificas#######################
+def lista_masculinos(lista):
+    lista_heroes = filtrar_lista(lambda heroe: heroe["genero"] == "M",lista)
+    return lista_heroes
+
+def lista_femeninos(lista):
+    return filtrar_lista(lambda heroe: heroe["genero"] == "F",lista)
+
+def heroe_alto(lista):
+    lista_heroes = lista_masculinos(lista)
+    return comprar_items(lambda h1,h2: float(h1["altura"]) > float(h2["altura"]),lista_heroes)
+
+def heroe_bajo(lista):
+    lista_heroes = lista_masculinos(lista)
+    return comprar_items(lambda h1,h2: float(h1["altura"]) < float(h2["altura"]),lista_heroes)
+
+def heroina_alta(lista):
+    lista_heroinas = lista_femeninos(lista)
+    return comprar_items(lambda h1,h2: float(h1["altura"]) > float(h2["altura"]),lista_heroinas)
+
+def heroina_baja(lista):
+    lista_heroinas = lista_femeninos(lista)
+    return comprar_items(lambda h1,h2: float(h1["altura"]) < float(h2["altura"]),lista_heroinas)
+
+def promedio_altura_masculinos(lista):
+    lista_heroes = lista_masculinos(lista)
+    lista_alturas = filtrar_atributo("altura",lista_heroes)
+    return promedio_lista(lista_alturas)
+
+def promedio_altura_femeninos(lista):
+    lista_heroinas = lista_femeninos(lista)
+    lista_alturas = filtrar_atributo("altura",lista_heroinas)
+    return promedio_lista(lista_alturas)
+
+def supers_altos_bajos(lista):
+    return [heroe_alto(lista),heroina_alta(lista),heroe_bajo(lista),heroina_baja(lista)]
+
+def color_ojos_repetidos(lista):
+    return contador_repetido("color_ojos",lista)
+
+def color_pelo_repetidos(lista):
+    return contador_repetido("color_pelo",lista)
+
+def inteligencia_repetidos(lista):
+    return contador_repetido("inteligencia",lista)
+
+def supers_color_ojos(lista):
+    return agrupar_elementos("color_ojos",lista)
+
+def supers_color_pelo(lista):
+    return agrupar_elementos("color_pelo",lista)
+
+def supers_inteligencia(lista):
+    return agrupar_elementos("inteligencia",lista)

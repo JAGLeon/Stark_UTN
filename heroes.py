@@ -1,6 +1,6 @@
 from data_heroes import lista_personajes
 from functions_heroes import *
-all_campos = ['nombre','identidad','empresa','altura','peso','genero','color_ojos','color_pelo','fuerza','inteligencia']
+claves = ['nombre','identidad','empresa','altura','peso','genero','color_ojos','color_pelo','fuerza','inteligencia']
 
 def menu():
     print("""
@@ -12,66 +12,51 @@ def menu():
     F - superhéroe más bajo de género F.
     G - altura promedio de los superhéroes de género M.
     H - altura promedio de los superhéroes de género F.
-    I - superhéroe más alto de género M & superhéroe más bajo de género F.
+    I - supers más altos & supers más bajos.
     J - superhéroes con cada tipo de color de ojos.
     K - superhéroes con cada tipo de color de pelo.
     L - superhéroes con cada tipo de inteligencia.
     M - superhéroes agrupados por color de ojos.
     N - superhéroes agrupados por color de pelo.
     O - superhéroes agrupados por color de inteligencia.
-    S - SALIR
+    S - SALIR.
     """)
     return input("\nSeleccione una opcion del menu : \n").lower()
+
 
 while True:
     match menu():
         case "a":
-            mostrar_lista(filtrar_lista(lambda heroe: heroe["genero"] == "G",lista_personajes),["nombre"])
+            mostrar_lista_campos(lista_masculinos(lista_personajes),["nombre"])
         case "b":
-            mostrar_lista(filtrar_lista(lambda heroe: heroe["genero"] == "F",lista_personajes),["nombre"])
+            mostrar_lista_campos(lista_femeninos(lista_personajes),["nombre"])
         case "c":
-            lista_filtrada = filtrar_lista(lambda heroe: heroe["genero"] == "M",lista_personajes)
-            heroe_mayor_altura = buscar_mayor_menor(lambda h1,h2: float(h1) < float(h2),"altura",lista_filtrada)
-            mostrar_elemento_por_campos(heroe_mayor_altura,all_campos)
+            mostrar_elemento_por_campos(heroe_alto(lista_personajes),["nombre"])
         case "d":
-            lista_filtrada = filtrar_lista(lambda heroe: heroe["genero"] == "F",lista_personajes)
-            heroe_mayor_altura = buscar_mayor_menor(lambda h1,h2: float(h1) < float(h2),"altura",lista_filtrada)
-            mostrar_elemento_por_campos(heroe_mayor_altura,all_campos)
+            mostrar_elemento_por_campos(heroina_alta(lista_personajes),["nombre"])
         case "e":
-            lista_filtrada = filtrar_lista(lambda heroe: heroe["genero"] == "M",lista_personajes)
-            heroe_mayor_altura = buscar_mayor_menor(lambda h1,h2: float(h1) > float(h2),"altura",lista_filtrada)
-            mostrar_elemento_por_campos(heroe_mayor_altura,all_campos)
+            mostrar_elemento_por_campos(heroe_bajo(lista_personajes),["nombre"])
         case "f":
-            lista_filtrada = filtrar_lista(lambda heroe: heroe["genero"] == "F",lista_personajes)
-            heroe_mayor_altura = buscar_mayor_menor(lambda h1,h2: float(h1) > float(h2),"altura",lista_filtrada)
-            mostrar_elemento_por_campos(heroe_mayor_altura,all_campos)
+            mostrar_elemento_por_campos(heroina_baja(lista_personajes),["nombre"])
         case "g":
-            lista_filtrada_g = filtrar_lista(lambda heroe: heroe["genero"] == "M",lista_personajes)
-            lista_filtrada_a = filtrar_atributo("altura",lista_filtrada_g)
-            print(f"promedio altura M : {promedio_lista(lista_filtrada_a)}")
+            print(f"promedio altura M : {promedio_altura_masculinos(lista_personajes)}")
         case "h":
-            lista_filtrada_f = filtrar_lista(lambda heroe: heroe["genero"] == "F",lista_personajes)
-            lista_filtrada_a = filtrar_atributo("altura",lista_filtrada_f)
-            print(f"promedio altura F : {promedio_lista(lista_filtrada_a)}")
+            print(f"promedio altura F : {promedio_altura_femeninos(lista_personajes)}")
         case "i":
-            lista_filtrada = filtrar_lista(lambda heroe: heroe["genero"] == "M",lista_personajes)
-            heroe_mayor_altura = buscar_mayor_menor(lambda h1,h2: float(h1) < float(h2),"altura",lista_filtrada)
-            mostrar_elemento_por_campos(heroe_mayor_altura,all_campos)
-            print()
-            lista_filtrada = filtrar_lista(lambda heroe: heroe["genero"] == "F",lista_personajes)
-            heroe_mayor_altura = buscar_mayor_menor(lambda h1,h2: float(h1) > float(h2),"altura",lista_filtrada)
-            mostrar_elemento_por_campos(heroe_mayor_altura,all_campos)
+            mostrar_lista_campos(supers_altos_bajos(lista_personajes),["nombre"])
         case "j":
-            mostrar_dictionary(contador_campo_repetido("color_ojos",lista_personajes))
+            mostrar_dictionary(color_ojos_repetidos(lista_personajes))
         case "k":
-            mostrar_dictionary(contador_campo_repetido("color_pelo",lista_personajes))
+            mostrar_dictionary(color_pelo_repetidos(lista_personajes))
         case "l":
-            mostrar_dictionary(contador_campo_repetido("inteligencia",lista_personajes))
+            mostrar_dictionary(inteligencia_repetidos(lista_personajes))
         case "m":
-            mostrar_dictionary_lista(agrupar_elementos("color_ojos",lista_personajes),all_campos)
+            mostrar_dictionary_lista_campos(supers_color_ojos(lista_personajes),claves)
         case "n":
-            mostrar_dictionary_lista(agrupar_elementos("color_pelo",lista_personajes),all_campos)
+            mostrar_dictionary_lista_campos(supers_color_pelo(lista_personajes),claves)
         case "o":
-            mostrar_dictionary_lista(agrupar_elementos("inteligencia",lista_personajes),all_campos)
+            mostrar_dictionary_lista_campos(supers_inteligencia(lista_personajes),claves)
         case "s":
             break
+
+
