@@ -48,19 +48,6 @@ def sumar_lista(lista):
 
 def promedio_lista(lista):
     return sumar_lista(lista) / len(lista)
-
-def contador_repetido(clave,lista):
-    diccionario = {}
-    for elem in lista:
-        valor_rep = elem.get(clave, "No existe")
-        if valor_rep == "":
-            valor_rep = "No Tiene"
-            
-        if valor_rep in diccionario:
-            diccionario[valor_rep] += 1
-        else:
-            diccionario[valor_rep] = 1
-    return diccionario
     
 def agrupar_elementos(clave,lista):
     diccionario = {}
@@ -113,13 +100,25 @@ def supers_altos_bajos(lista):
     return [heroe_alto(lista),heroina_alta(lista),heroe_bajo(lista),heroina_baja(lista)]
 
 def color_ojos_repetidos(lista):
-    return contador_repetido("color_ojos",lista)
+    dic_new = {}
+    dic = agrupar_elementos("color_ojos",lista) 
+    for clave in dic:
+        dic_new[clave] = len(dic[clave])
+    return dic_new
 
 def color_pelo_repetidos(lista):
-    return contador_repetido("color_pelo",lista)
+    dic_new = {}
+    dic = agrupar_elementos("color_pelo",lista) 
+    for clave in dic:
+        dic_new[clave] = len(dic[clave])
+    return dic_new
 
 def inteligencia_repetidos(lista):
-    return contador_repetido("inteligencia",lista)
+    dic_new = {}
+    dic = agrupar_elementos("inteligencia",lista) 
+    for clave in dic:
+        dic_new[clave] = len(dic[clave])
+    return dic_new
 
 def supers_color_ojos(lista):
     return agrupar_elementos("color_ojos",lista)
@@ -129,3 +128,4 @@ def supers_color_pelo(lista):
 
 def supers_inteligencia(lista):
     return agrupar_elementos("inteligencia",lista)
+
