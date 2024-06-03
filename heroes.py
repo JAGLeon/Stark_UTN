@@ -1,6 +1,5 @@
-from data_heroes import lista_personajes
+from data_heroes import *
 from functions_heroes import *
-claves = ['nombre','identidad','empresa','altura','peso','genero','color_ojos','color_pelo','fuerza','inteligencia']
 
 def menu():
     print("""

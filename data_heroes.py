@@ -1,3 +1,5 @@
+claves = ['nombre','identidad','empresa','altura','peso','genero','color_ojos','color_pelo','fuerza','inteligencia']
+
 lista_personajes =\
 [
   {
